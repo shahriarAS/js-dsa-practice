@@ -1,31 +1,59 @@
-class Stack{
-	constructor(){
-		this.stack = []
-	}
+class Stack {
+    constructor(MAX_STACK_SIZE) {
+        this.top = -1
+        this.MAX_STACK_SIZE = MAX_STACK_SIZE
+        this.stack = Array(MAX_STACK_SIZE) // Array with max size `MAX_STACK_SIZE`
+        this.EmptyError = new Error("Stack Is Empty")
+        this.FullError = new Error("Stack Is Full")
+    }
 
-	show_stack(){
-		return this.stack
-	}
+    isFull() {
+        return (this.top + 1) == this.MAX_STACK_SIZE
+    }
 
-	push(item){
-		this.stack.push(item)
-	}
+    isEmpty() {
+        return this.top == -1
+    }
 
-	pop(){
-		return this.stack.pop()
-	}
+    push(item) {
+        if (this.isFull()) {
+            throw this.FullError
+        } else {
+            this.top += 1
+            this.stack[this.top] = item
+        }
+    }
 
-	isEmpty(){
-		return this.stack.length == 0
-	}
+    pop() {
+        if (this.isEmpty()) {
+            throw this.EmptyError
+        } else {
+            const popItem = this.stack[this.top]
+            this.stack[this.top] = null
+            this.top -= 1
+            return popItem
+        }
+    }
+
+    peek() {
+        if (this.isEmpty()) {
+            throw this.EmptyError
+        } else {
+            return this.stack[this.top]
+        }
+    }
+
+    showStack() {
+        return this.stack
+    }
 }
 
-const firstStack = new Stack()
-console.log(firstStack.show_stack())
-firstStack.push(2)
-firstStack.push(4)
-firstStack.push(1)
-console.log(firstStack.show_stack())
-console.log(firstStack.pop())
-console.log(firstStack.show_stack())
-console.log(firstStack.isEmpty())
+const stack1 = new Stack(5)
+console.log(stack1.showStack())
+stack1.push(3)
+stack1.push(1)
+stack1.push(0)
+stack1.push(5)
+stack1.push(21)
+console.log(stack1.pop())
+console.log(stack1.showStack())
